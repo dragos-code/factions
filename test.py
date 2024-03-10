@@ -2,6 +2,14 @@ import random
 # Point of no return
 from logger import Logger
 import sys
+from enum import Enum
+
+class Action(Enum):
+    ATTACK = "attack"
+    DEFEND = "defend"
+    HOLD = "hold"
+    ASK_FOR_HELP = "ask for help"
+
 # They've all fallen into the powers of darkness
 base_troops = 60
 class _C:
@@ -82,13 +90,38 @@ class Faction:
         else:
             print(f"Territory {_C.RED}{territory.name}{_C.RESET} is not controlled by {_C.YELLOW}{self.name}{_C.RESET}. Cannot set as headquarters.")
     def make_choice(self):
-        choices = ["attack", "defend", "hold", "ask_for_help"]
-        return random.choice(choices)
-
+        return random.choice(list(Action))
     def execute_choice(self, choice):
-        # Placeholder for executing the choice
-        print(f"{self.name} decides to {choice}.")
-        # Implementation will depend on the choice logic
+        # Mapping of choices to faction methods
+        action_map = {
+            Action.ATTACK: self._attack,
+            Action.DEFEND: self._defend,
+            Action.HOLD: self._hold,
+            Action.ASK_FOR_HELP: self._ask_for_help,
+        }
+        
+        # Get the method based on the choice and call it
+        action_method = action_map.get(choice)
+        if action_method:
+            action_method()
+        else:
+            print(f"Invalid choice: {choice}")
+
+    def _attack(self):
+        # Implementation of attack action
+        print(f"{self.name} decides to ATTACK.")
+
+    def _defend(self):
+        # Implementation of defend action
+        print(f"{self.name} decides to DEFEND.")
+
+    def _hold(self):
+        # Implementation of hold action
+        print(f"{self.name} decides to HOLD.")
+
+    def _ask_for_help(self):
+        # Implementation of ask for help action
+        print(f"{self.name} decides to ASK FOR HELP.")
 class Game:
     def __init__(self, factions, territories):
         self.factions = factions
