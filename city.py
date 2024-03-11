@@ -23,7 +23,7 @@ class District:
         for i in range(4):
             territory_name = input(f"Enter name for territory {i+1} in {self.name}:")
             territories.append(Territory(self, territory_name))
-        return territories  # Fix: return the list of territories.
+        return territories  
     
 class City:
     city_id_counter = 1

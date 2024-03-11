@@ -1,4 +1,3 @@
-from city import City
 from faction import Faction
 
 class Game:
@@ -9,8 +8,8 @@ class Game:
         self.territories = []
         self.attack_queue = []
     
-    def add_faction(self,name,total_troops):
-        faction = Faction(name, total_troops, self)
+    def add_faction(self,name):
+        faction = Faction(name, self)
         self.factions.append(faction)
         return faction
     def add_district_territories(self, district_name, territory_names):
@@ -35,9 +34,11 @@ class Game:
             choice = faction.make_choice()
             faction.execute_choice(choice)
         self.resolve_attacks()
-            # Additional logic to apply the choice effects
+
+        for district_name, district in self.city.districts.items():
+            for territory in district.territories:
+                print(f"{territory.name} in {district_name} has {territory.troops} troops.")
 
     def run_simulation(self, number_of_days):
         for _ in range(number_of_days):
             self.simulate_day()
-            # Further logic to check for game end conditions, etc.
